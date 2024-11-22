@@ -70,6 +70,21 @@ Next we want to swap the smallest element with the first unsorted element.
 
 Next the loop moves forward, array[i] becomes array[1], and is compared to array[2], and the process repeats.
 
+
+## print array function
+
+We need to loop through the array from index 0 to size - 1, printing each element followed by a space.
+
+- The function must take the array and its size as args.
+
+for (int i = 0; i < size; i++)
+{
+  printf("%i ", arr[i]);
+}
+printf("\n");
+
+
+
 ```
 if (min_index != i)
 {
@@ -143,5 +158,12 @@ void selection_sort(int arr[], int size)
 }
 
 
-
+void print_array(arr[], size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    printf("%i ", arr[i]);
+  }
+  printf("\n");
+}
 ```
