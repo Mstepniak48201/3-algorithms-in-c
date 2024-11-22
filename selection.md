@@ -1,7 +1,9 @@
 # Selection
 
+
 ## Problem Statement
 Take an unsorted array of numbers, and sort them using a Selection algorithm as described in CS50x. Understand how the program and its elements work, step by step.
+
 
 ## sizeof()
 
@@ -21,6 +23,61 @@ We will need to use sizeof(), a built in operator in C, to find the number of el
 - We use this formula: Number of Elements = Total Memory Size / Size of One Element
 
 So: int size = sizeof(array) / sizeof(array[0])
+
+
+## selection sort function
+
+The function must take the array and its size as args.
+
+  `void selection_sort(int arr[], int size)`
+
+
+We need to iterate through all array elements, except the last one:
+
+  for (int i = 0; i < size - 1; i++)
+
+
+Within the outer loop, we declare the variable `min_index`. This variable is initialized as i, the first element, and will be updated if elements are smaller in value.
+
+  `int min_index = i`
+
+
+The inner loop compares the values, stopping at the final value.
+
+- j is initialized to i + 1, as initially, `min_index` is initialized to the index of the first element in the array.
+- We want to compare `min_index`, initially array[0] to array[j].
+- If array[j] < `min_index`, we update `min_index`
+  
+```
+for (int j = i + 1; j < size; j++)
+{
+  if (array[j] < min_index)
+  {
+    min_index = array[j];
+  }
+}
+```
+
+
+Next we want to swap the smallest element with the first unsorted element.
+
+- We now know the smallest element in the array, and we have stored its index in `min_index`.
+- We now want the element at `array[min_index]` to exist at array[i], and the element at array[i] to exist at `array[min_index]`.
+- We do this by storing array[i] in a temporary variable, `temp_i` = array[i].
+- We then update array[i] to the value of `array[min_index]`.
+- We then update the value of `array[min_index]` to the value of our temporary value, `array[temp_i]`.
+
+
+Next the loop moves forward, array[i] becomes array[1], and is compared to array[2], and the process repeats.
+
+```
+if (min_index != i)
+{
+  int temp_i = arr[i];
+  arr[i] = arr[min_index];
+  arr[min_index] = temp_i;
+}
+```
 
 
 
