@@ -126,7 +126,22 @@ void selection_sort(int arr[], int size)
         min_index = j;
       }
     }  
+
+    // Swap values between min_index and i, if min_index is not i.
+    if (min_index != i)
+    {
+      // Store i in a temp variable.
+      int temp_i = arr[i];
+      
+      // Replace arr[i] with arr[min_index]
+      arr[i] = arr[min_index];
+
+      // Replace arr[min_index] with temp (formerly arr[i])
+      arr[min_index] = temp;
+    }
   }
 }
+
+
 
 ```
