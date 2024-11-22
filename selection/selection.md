@@ -120,6 +120,12 @@ int main(void)
   
   // Sort the array.
   selection_sort(numbers, size);
+
+  // Print sorted array.
+  printf("Sorted array:\n");
+  print_array(numbers, size);
+
+  return 0;
 }
 
 void selection_sort(int arr[], int size)
