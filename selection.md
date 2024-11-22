@@ -46,14 +46,14 @@ The inner loop compares the values, stopping at the final value.
 
 - j is initialized to i + 1, as initially, `min_index` is initialized to the index of the first element in the array.
 - We want to compare `min_index`, initially array[0] to array[j].
-- If array[j] < `min_index`, we update `min_index`
+- If array[j] < `min_index`, we update `min_index` to j.
   
 ```
 for (int j = i + 1; j < size; j++)
 {
   if (array[j] < min_index)
   {
-    min_index = array[j];
+    min_index = j;
   }
 }
 ```
@@ -109,9 +109,23 @@ int main(void)
 
 void selection_sort(int arr[], int size)
 {
+  // Offset by -1 to prevent the loop from attempting to compare
+  // to a value outside of the array. 
   for (int i = 0; i < size - 1; i++)
   {
-    
+    // Initialize min_index to i (initially arr[0]).
+    int min_index = arr[i];
+
+    // Initialize j to i + 1, so that min_size is always 1 index before j.
+    for (int j = i + 1; j < size; j++)
+    {
+      // Compare current element j to min_index.
+      if (arr[j] < arr[min_index])
+      {
+        // Update min_index to smallest element.
+        min_index = j;
+      }
+    }  
   }
 }
 
