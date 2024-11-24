@@ -173,3 +173,15 @@ void print_array(arr[], size)
   printf("\n");
 }
 ```
+
+
+## Run program
+
+* To compile and run:
+
+- Output the executable file `my_file`.
+```
+bash:
+gcc my_file.c -o my_file
+```
+

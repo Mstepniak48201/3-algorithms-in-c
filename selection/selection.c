@@ -34,5 +34,9 @@ void selection_sort(int arr[], int size)
 
 void print_array(int arr[], int size)
 {
-  return 0;
+  for (int i = 0; i < size; i++)
+  {
+    printf("%i", arr[i]);
+  }
+  printf("\n");
 }
