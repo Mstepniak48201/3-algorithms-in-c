@@ -4,6 +4,40 @@
 ## Problem Statement
 Take an unsorted array of numbers, and sort them using a Selection algorithm as described in CS50x. Understand how the program and its elements work, step by step.
 
+## Overview in pseudo-code
+
+```
+unsorted_array = 5, 3, 5, 2, 9, 8
+
+size = size of unsorted array
+
+for i = current element, iterate over all array elements except size - 1 (last element)
+
+  min_index = current unsorted element (i)
+
+  // j will always be one element ahead of i.
+  // The loop will compare i and j.
+  // Remember that min_index = i.
+  for j = i + 1, iterate over all array elements except array[0]
+    if array[j] < array[min_index]
+      
+      // If array[j]  is smaller, reassign the value of min_index.
+      // Otherwise, min_index stays the same.
+      min_index = j
+
+// Check to make sure that min_index != i, before swapping numbers. If min_index == i, the smallest number is already in the correct place and no further sorting needs to be done in this iteration.
+if min_index != i
+
+  // Store the current unsorted value in a temporary variable.
+  temp_i = array[i]
+
+  // Replace the value at the current unsorted index 
+  // with the smaller value stored in min_index (array[j])
+  array[i] = array[min_index]
+
+  // Swap the value stored at array[j] with the unsorted value stored in temp_i
+  array[min_index] = temp_i
+```
 
 ## sizeof()
 
@@ -153,7 +187,7 @@ void selection_sort(int arr[], int size)
       // Store i in a temp variable.
       int temp_i = arr[i];
       
-      // Replace arr[i] with arr[min_index]
+      // Replace arr[i] with arr[min_index
       arr[i] = arr[min_index];
 
       // Replace arr[min_index] with temp (formerly arr[i])

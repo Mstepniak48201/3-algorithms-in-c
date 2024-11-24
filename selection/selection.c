@@ -51,20 +51,23 @@ void selection_sort(int arr[], int size)
     }
 
     // Check that i and min_index aren't the same before attempting update.
+    // If min_index == i, everything will stay the same, with no need to swap values.
     if (min_index != i)
     {
-      // Store the value of arr[i], the current Unsorted Element, in a temporary variable.
+      // Store the value of arr[i] in a temporary variable.
+      // We are about to put the value at arr[min_index] (which is now arr[j]) in place of
+      // the value at arr[i].
+      // We need to hold on to the value of arr[i] so we can place it at arr[j].
       int temp_i = arr[i];
       
-      // arr[min_index] either equals arr[i] or arr[j]. One of those is the smaller element.
+      // arr[min_index] is arr[j].
       // arr[i] is the current element in the outer loop.
-      // If arr[min_index] is arr[i], the value of arr[i] stays the same.
-      // Otherwise, the value of arr[j] is assigned to arr[i].
+      // The value of arr[j] is assigned to arr[i].
       arr[i] = arr[min_index];
 
-      // Now, if the values have been swapped, and min_index = j, the displaced value that
-      // was at arr[i] will be swapped to the space formerly occupied by the smaller value,
-      // at arr[j].
+      // Now that min_index = j, we swap th displaced value that was formerly at arr[i]
+      // will be swapped to the space formerly occupied by the smaller value.
+      // In effect, this means: arr[j] = temp_i
       arr[min_index] = temp_i;
     }
 
