@@ -24,7 +24,6 @@ We will need to use sizeof(), a built in operator in C, to find the number of el
 
 So: int size = sizeof(array) / sizeof(array[0])
 
-
 ## selection sort function
 
 The function must take the array and its size as args.
