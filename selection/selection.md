@@ -6,6 +6,17 @@ Take an unsorted array of numbers, and sort them using a Selection algorithm as 
 
 ## Overview in pseudo-code
 
+// Outer loop iterates from 0 through size - 1, making certain the loop makes enough passes.
+for i = current pass, iterate while the loop hsa completed < size - 1 passes.
+
+
+  // Check to see if a swap has occurred.
+  int swapped = Was a swap made? y/n
+
+  // Inner loop compares adjecent elements, arr[j] and arr[j] + 1,
+  // in the unsorted portion of the array during each pass (i).
+  for j = starting point for comparison, while j < size - i - 1.
+
 ```
 unsorted_array = 5, 3, 5, 2, 9, 8
 
@@ -128,6 +139,7 @@ if (min_index != i)
 ```
 
 
+## Test Code
 
 ```
 #include <stdio.h>
