@@ -148,14 +148,15 @@ void bubble_sort(int arr[], int size);
         // Mark that a swap occurred.
         swapped = 1;
       }
-
-      // If swapped = 0, the array is sorted.
-      // If array is sorted, break out of the loop.
-      if (!swapped)
-      {
-        break;
-      }
     } 
+
+    // If swapped = 0, the array is sorted.
+    // If array is sorted, break out of the loop.
+    // This check must occur at the end of the outer loop, after the inner loop is finished.
+    if (!swapped)
+    {
+      break;
+    }
   }
 }
 
