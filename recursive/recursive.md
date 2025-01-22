@@ -17,46 +17,180 @@ The steps:
 3. Recursively call the function to sort both halves.
 4. Merge: Combaine sorted halves.
 
-## Working through the logic
 
-Let's start with a test array, a look at the recursive function, and work through the logic.
+## Working Through the Logic
+
+* At the bottom of this file, I will be preserving my process as I work through how to write the merge() function in psuedo-code, and iterate towards the final version.
+
+The logic of the recursive merge sort relies on mechanics of C:
+- Integer Truncation: When a variable of type int is the result of the division of two ints, and the division would result in a decimal number, everything past the zero is truncated.
+
+  ```
+  // 1 / 2 = 0.5
+  // Since a C int will truncate the decimal, the value of int truncate is 0. 
+  int truncate = 1 / 2;
+  ```
+
+I will start with a test array, and work through the logic.
 
 ```
 // Test array
-int arr[] = {2, 1, 4, 3};
+int arr[] = {2, 4, 1, 3}
 
-// Get length of Array. Remember that sizeof() will return the number of characters in the array.
-// We want the length, 0-indexed. The 0-indexed length will == size - 1
-int length = (sizeof(arr) / sizeof(arr[0])) - 1;
+// Get array length. sizeof() returns the number of characters, so 0-indexed length will == size = 1.
+int length = (sizeof(arr) / sizeof(arr[0]) = 1;
 
-// Function
-// Pass in arr, 0 for l (left index), and length for r (right index)
+// Pass in 0 for l (left index) and length for r (right index) to initially examine the entire array.
 void merge_sort(int arr[], int l, int r)
 {
-  if (l < r)
+  // Set a base case for a single element or empty array.
+  if (l >= r)
   {
-    // Get midpoint index.
-    int m = l + (r - l) / 2;
-
-    // Sort left half.
-    merge_sort(arr, l, m);
-
-    // Sort right half.
-    merge_sort(arr, m + 1, r);
-
-    // Call function that merges sorted arrays.
-    merge_sorted_arrays(int arr, int l, int m, int r); 
+    return;
   }
+
+  // Get midpoint index.
+  int m = l + (r - l) / 2;
+
+  // Sort left half.
+  merge_sort(arr, 0, m);
+
+  // Sort right half.
+  merge_sort(arr, m + 1, r);
+
+  // Call function that merges sorted arrays.
+  merge_sorted_arrays(int arr, int l, int m, int r);  
 }
 ```
 
-Let's break this down from the perspective of the Call Stack.
+### Breaking down the Call Stack
 
-1. Initial Call | Entire array is passed in | l = 0, r = 3
+1. Initial call | Entire array {2, 4, 1, 3} is passed in | l = 0, r = 3
+
+  ```
+  merge_sort(arr, 0, 3);
+  ```
+
+- function takes the array, and the left and right-most indices that indicate the portion of the array we want to examine.
+
+- On the initial call, we want to examine the entire array, in this case, indices 0 - 3.
+
+- The first thing the function does is create the initial left-right split by finding the midpoint:
+
+  ```
+  //  m = l + (r - l) / 2
+  int m = 0 + (3 - 0) / 2;
+  ```
+  - C truncates everything to the right of the decimal, and m = 1.
+
+
+2. First Recursive Call | Examine Left Half of Array {2, 4} | l = 0, r = 1
+
+After finding the midpoint, the function calls `merge_sort()` recursively, and passes in the midpoint (m) as the right-most (r) index value, so the function examines the portion of the array between 0 - 1, which is {2, 4}.
+
+  ```
+  merge_sort(arr, 0, 1);
+  ```
+
+- The First Recursive Call of `merge_sort()` finds the "midpoint":
+
+  ```
+  //  m = l + (r - l) / 2
+  int m = 0 + (1 - 1) / 2
+  ```
+  - 1 / 2 is truncated at the decimal, and m = 0.
+
+
+3. Second Recursive Call | Examine Left Half of Left Half of Array {2} | l = 0, r = 0.
+
+  ```
+  merge_sort(arr, 0, 0);
+  ```
+
+  - This examines the Left Half of the Left Half of the Array, {2}
+  
+  - The base case of l == r is reached, and the Second Recursive Call of `merge_sort()` returns.
+
+
+4. Third Recursive Call | Examine the Right Half of the Left Half of the Array {4} | l = 1, r = 1
+
+- Since the base case of l == r was reached in the Second Recursive Call, that function returned.
+
+- The Second Recursive Call was made from within the First Recursive Call, so the program moves to the next line, which is:
+
+  ```
+  merge_sort(arr, m + 1, r);
+  ```
+
+  - This is the Third Recursive call, which sorts the Right Half of the Left Half of the Array. 
+
+
+- Recall that within the First Recursive call:
+
+  - m == 0
+
+  - and 1 has been passed in as r.
+
+- This means that the Third Recursive call is:
+
+  ```
+  merge_sort(arr, 1, 1);
+  ```
+
+  - This examines the Right half of the Left Half of the Array, {4}
+
+  - The base case of l == r is reached, and the Third Recursive Call of `merge_sort()` returns.
+
+
+5. First Merge | Merge Left half of Left Half and Right Half of Right Half | {2} and {4}, into {2, 4}
+
+The Second and Third Recursive Calls have both been made from within the First Recursive Call, and both functions have returned.
+
+
+
+  
+
+
+
+
+
+
+## Psuedo Code and Setup
+
 ```
-// Pass in 0 for l, length for r.
-merge_sort(arr, 0, 3)
+// Prototypes
+void merge_sort(int arr[], int left, int right)
+void merge(int arr[], int left, int mid, int right)
+
+main:
+  unsorted_array = 1, 3, 4, 6, 0, 2, 5, 7
+  size = size of unsorted array
+
+  print unsorted array
+
+  merg_sort(unsorted_array, 0, size - 1)
+
+  print sorted array
+
+
+merge(int arr[], int left, int mid, int right)
+{
+
+}
+
+merge_sort(int arr[], int left, int right)
+  // gg
+  if left < r
+    int mid = left + (right - left) / 2
+
+    merge_sort(arr, left, mid)
+    merge_sort(arr, m + 1, right)
+
+    merge(arr, left, mid, right)
+
+
 ```
+
 
 - The first argument is the array. The second and third arguments define the portion of the array we want to examine.
 
@@ -106,46 +240,100 @@ merge_sort(arr, 0 , 0)
 The function (the second recursive call) returns, and the 
 
 
-
-
-
-
-
-
-## Psuedo Code and Setup
+## merge() psuedo code
 
 ```
-// Prototypes
-void merge_sort(int arr[], int left, int right)
-void merge(int arr[], int left, int mid, int right)
+#include <stdio.h>
 
-main:
-  unsorted_array = 1, 3, 4, 6, 0, 2, 5, 7
-  size = size of unsorted array
+int test_array[] = {1, 3, 2, 4};
 
-  print unsorted array
+// We are examining the whole array, and finding the middle.
+// The left (l) index is 0, and the right (r) is 3.
+// m = l + (r - l) / 2, which is 1.
+int m = 1;
 
-  merg_sort(unsorted_array, 0, size - 1)
-
-  print sorted array
-
-
-merge(int arr[], int left, int mid, int right)
+void merge(int arr[], int l, int r, int m)
 {
+  // Get length of original array.   
+  int length = sizeof(test_array) / sizeof(test_array[0]);
+  
+  // Get length of temp right and left arrays.
+  int l_length = (m - l) + 1;
+  int r_length = r - m;
 
+  // Declare temp arrays.
+  int left[l_length], right[r_length];
+
+  // Copy left half of arr into left array.
+  for (int i = 0; i < l_length; i++)
+  {
+    left[i] = arr[i];
+  }
+
+  // Copy right half of arr into right array.
+  for (int i = 0; i < l_length; i++)
+  {
+    right[i] = arr[i];
+  }
+
+  // Check to see if either side is longer than the other.
+  if (l_length == r_length)
+  {
+
+    // First Assumption: l_length == r_length
+    // While index < (length - 1):
+      // Declare current left, right, and array index.
+      // int index = 0;
+      // int l_index = 0;
+      // int r_index = 0;
+
+      // Examine for array[0]
+      // if left[l_index] <= right[r_index]
+        // array[index] = left[l_index]
+        // index++
+        // l_index++
+      // Else:
+        // array[index] = right[r_index]
+        // index++
+        // r_index++  
+  }
+  // else:
+  {
+    // Second Assumption: l_length != r_length
+    // l_length will be the longer of the two
+    // Iterate through left and right arrays as far as they are of equal length.
+    // While index < (length - 2)
+      // Declare current left, right, and array index.
+      // int index = 0;
+      // int l_index = 0;
+      // int r_index = 0;
+
+      // if left[l_index] <= right[index]
+        // array[index] = left[l_index]
+        // index++
+        // l_index++
+      // Else:
+        // array[index] = right[r_index]
+        // index++
+        // r_index++
+
+      // Compare Left Over Element
+
+      // Suppose {1, 5, 100} and {6, 90}
+        // First pass: 1 or 6             | Result: {1}
+        // Second pass: 5 or 90           | Result: {1, 5}
+        // Third pass: 100 or 6           | Result: {1, 5, 6}
+        // Fourth pass: 100 or 90         | Result: {1, 5, 6, 90}
+        // Leftover Character: 100 or 90  | Result {1, 5, 6, 90, 100}
+
+      // Suppose {1, 5, 90} and {100, 110}}
+        // First pass: 1 or 100           | Result: {1]
+        // Second pass: 5 or 100          | Result: {1, 5}
+        // Third pass: 90 or 100          | Result: {1, 5, 90}
+        // Fourth pass: nothing left in left array, two elements in right array.
+  }
+
+  
 }
-
-merge_sort(int arr[], int left, int right)
-  // gg
-  if left < r
-    int mid = left + (right - left) / 2
-
-    merge_sort(arr, left, mid)
-    merge_sort(arr, m + 1, right)
-
-    merge(arr, left, mid, right)
-
-
 ```
-
 
