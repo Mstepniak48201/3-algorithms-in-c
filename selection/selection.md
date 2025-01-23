@@ -228,5 +228,6 @@ void print_array(arr[], size)
 ```
 bash:
 gcc my_file.c -o my_file
+./my_file
 ```
 

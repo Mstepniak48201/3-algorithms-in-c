@@ -1,60 +1,64 @@
 #include <stdio.h>
 
-int test_array[] = {1, 3, 2, 4};
+// Prototypes
+void print_array(int arr[], int length);
+void merge(int arr[], int l, int r, int m);
 
-// We are examining the whole array, and finding the middle.
-// The left (l) index is 0, and the right (r) is 3.
-// m = l + (r - l) / 2, which is 1.
-int m = 1;
+int main(void)
+{
+  int test_array[] = {1, 3, 2, 4};
+  int length = sizeof(test_array) / sizeof(test_array[0]);
+  
+  print_array(test_array, length);
+
+  merge(test_array, 0, 3, 1);
+}
+
+
+// One array can empty out before the other, so no matter how many elements in each array, it is possible to have "left over elemnts," in one array while the other is empty.
+
+// Rather than make assumptions about the size of the array, it is best to have a way to handle left over elements.
+
+// This means keeping track of how many elements in the left and right arrays, respectively, have been allocated to their correct ordered index in the sorted array.
 
 void merge(int arr[], int l, int r, int m)
 {
-  // Get length of original array.   
-  int length = sizeof(test_array) / sizeof(test_array[0]);
   
   // Get length of temp right and left arrays.
   int l_length = (m - l) + 1;
   int r_length = r - m;
+  int length = l_length + r_length; 
+
+  // Get the left index of the right temp array.
+  int lr_index = m + 1;  
 
   // Declare temp arrays.
   int left[l_length], right[r_length];
 
-  // Copy left half of arr into left array.
+  // Copy left half of arr[] into left[].
   for (int i = 0; i < l_length; i++)
   {
     left[i] = arr[i];
   }
 
-  // Copy right half of arr into right array.
-  for (int i = 0; i < l_length; i++)
+  for (int i = lr_index; i < length; i++)
   {
-    right[i] = arr[i];
+    right[i - lr_index] = arr[i];
   }
-
-  // Check to see if either side is longer than the other.
-  if (l_length == r_length)
-  {
-
-    // While index < (length - 1):
-      // Declare current left, right, and array index.
-      // int index = 0;
-      // int l_index = 0;
-      // int r_index = 0;
-
-      // Examine for array[0]
-      // if left[l_index] <= right[r_index]
-        // array[index] = left[l_index]
-        // index++
-        // l_index++
-      // Else:
-        // arry[index] = right[r_index]
-        // index++
-        // r_index++
-  }
-
-
   
+  printf("left array: ");
+  print_array(left, l_length);
+  printf("right array: ");
+  print_array(right, r_length);
 }
 
+void print_array(int arr[], int length)
+{
+  for (int i = 0; i < length; i++)
+  {
+    printf("%i", arr[i]);
+  }
+  printf("\n");
+}
 
-
+  

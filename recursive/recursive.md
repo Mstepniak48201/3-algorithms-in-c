@@ -241,7 +241,7 @@ The function (the second recursive call) returns, and the
 
 
 ## merge() psuedo code
-
+### First Pass
 ```
 #include <stdio.h>
 
@@ -331,9 +331,130 @@ void merge(int arr[], int l, int r, int m)
         // Second pass: 5 or 100          | Result: {1, 5}
         // Third pass: 90 or 100          | Result: {1, 5, 90}
         // Fourth pass: nothing left in left array, two elements in right array.
-  }
-
-  
+  } 
 }
 ```
 
+### Second Pass
+```
+// One array can empty out before the other, so no matter how many elements in each array, it is possible to have "left over elements," in one array while the other is empty.
+
+// Rather than make assumptions about the size of the array, it is best to have a way to handle left over elements.
+
+// This means keeping track of how many elements in the left and right arrays, respectively, have been allocated to their correct ordered index in the sorted array.
+
+void merge(int arr[], int l, int r, int m)
+
+  // Get length of original array.
+  int length = sizeof(arr) / sizeof(arr[0]);
+
+  // Get length of temp right and left arrays.
+  int l_length = (m - l) + 1;
+  int r_length = r - m;
+
+  // Declare temp arrays.
+  int left[l_length], right[r_length];
+
+  // Copy left half of arr[] into left[].
+  for (int i = 0; i < l_length; i++)
+  {
+    left[i] = arr[i];
+  }
+
+  // Copy right half of arr[] into right[].
+  for (int i = m + 1; i < length; i++)
+  {
+    right[i] = arr[i];
+  }
+
+  int left_elements_allocated = 0;
+  int right_elements_allocated = 0;
+  int arr_index = 0;
+  int l_index = 0;
+  int r_index = 0;
+
+  while left_elements_allocated <= l_length and right_elements_allocated <= r_length:
+    
+    if left[l_index] <= right[r_index]:
+      arr[arr_index] = left[l_index]
+      l_index++
+      arr_index++
+    else:
+      arr[arr_index] == right[r_index]
+      r_index++
+      arr_index++
+
+  // Check to see if any elements remain in either array.
+  while l_index < l_length:
+    arr[arr_index] = left[l_index]
+    l_index++
+    arr_index++ 
+
+  while r_index < r_length:
+    arr[arr_index] = right[r_index]
+    r_index++
+    arr_index++ 
+```
+
+### Third Pass
+
+* Here is a working function that copies the left and right halves of an array into left and right temp arrays. No sorting or acounting for leftover elements is done yet.
+
+```
+#include <stdio.h>
+
+// Prototypes
+void print_array(int arr[], int length);
+void merge(int arr[], int l, int r, int m);
+
+int main(void)
+{
+  int test_array[] = {1, 3, 2, 4};
+  int length = sizeof(test_array) / sizeof(test_array[0]);
+  
+  print_array(test_array, length);
+
+  merge(test_array, 0, 3, 1);
+}
+
+void merge(int arr[], int l, int r, int m)
+{
+  
+  // Get length of temp right and left arrays.
+  int l_length = (m - l) + 1;
+  int r_length = r - m;
+  int length = l_length + r_length; 
+
+  // Get the left index of the right temp array.
+  int lr_index = m + 1;  
+
+  // Declare temp arrays.
+  int left[l_length], right[r_length];
+
+  // Copy left half of arr[] into left[].
+  for (int i = 0; i < l_length; i++)
+  {
+    left[i] = arr[i];
+  }
+
+  for (int i = lr_index; i < length; i++)
+  {
+    right[i - lr_index] = arr[i];
+  }
+  
+  printf("left array: ");
+  print_array(left, l_length);
+  printf("right array: ");
+  print_array(right, r_length);
+}
+
+void print_array(int arr[], int length)
+{
+  for (int i = 0; i < length; i++)
+  {
+    printf("%i", arr[i]);
+  }
+  printf("\n");
+}
+```
+  
