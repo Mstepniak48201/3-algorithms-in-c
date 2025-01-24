@@ -517,26 +517,103 @@ merge_sort(arr, m + 1, r)
 
 Base case reached -> l == r, single element array, function returns.
 
+5. merge() is called.
+- The Third Recursive Call was made from within the First Recursive Call.
+- Since that call of `merge_sort()` returned, the program moves to he next line:
 ```
-int left[] = {1, 3};
-int right[] = {2, 4};
+// function with args
+merge(int arr[], int l, int r, int m)
+
+// function as called
+merge(arr, 0, 1, 0)
 ```
-1. Original Call has {1, 3, 2, 4} passed in. l == 0, r == 3 (length - 1).
-2. Original Call: m = 1
+- Args
+  l = 0
+  r = 1
+  m = 0
 
-3. First Recursive Call (left half) examines {1, 3}, at the l and r indices of 0 and 1 (1 passed in from m parameter)
-4. First Recursive Call: m = 0
+- merge() takes the left half (elements at indices <= m) and compares it to the right half (elements with indices > m)
 
-5. Second Recursive Call is made from within the First Recursive Call: left half of left half, examines {1}, at the l and r indices of 0 and 0 (0 passed in from m parameter)
-6. Second Recursive Call: l == r (0 is passed in for both), and the function returns.
+- In this case, there are two single-element arrays:
+  - left: {4}
+  - right: {1}
 
-6. Third Recursive Call is made from within the First Recursive Call: right half of left half, examines {3}, at indices 
-7. Third Recursive Call: l == r (0 is passed in for both), and the function returns.
+- merge() takes the elements {4} at arr[0] - arr[m] and copies them into a temporary array.
 
-8. Return to First Recursive Call. now that `merge_sort()` as been called for both left and right halves of the left half, the function moves to the next line.
-9. `merge_sorted_arrays()` is called.
+- merge() takes the elements {1} at arr[m + 1] - arr[r] and copies them into a temporary array.
 
-10. `
+- merge then iterates over the elements in both arrays and copies them into the original array at the correct index. The First Recursive Call examines the Left Half, sothe relevant indices are 0, 1, which are the values for l and r.
+
+```
+// Declare index variables for the original array, and the left and right temp arrays.
+arr_i = l 
+left_i = 0
+right_i = 0
+
+// Keep track of the index that has been set in the original array, as well as the indexes of the left and right arrays.
+// If the left or right index exceeds its length, exit the loop
+while (left_i < l_length && right_i < r_length)
+{
+  if (left[left_i] <= right[right_i]) 
+  {
+    arr[arr_i] = left[left_i]
+    left_i++
+  }
+  else
+  {
+    arr[arr_i] = right[right_i]
+
+    right_i++
+  }
+  arr_i++
+}
+
+// Copy any remaining elements from left array.
+while (left_i < l_length)
+{
+  arr[arr_i] = left[left_i]
+  arr_i++
+  left_i++
+}
+
+// Copy and remaining elements from right array.
+while (right_i < r_length)
+{
+  arr[arr_i] = right[right_i]
+  arr_i++
+  right_i++
+}
+
+
+```
+
+
+How do we figure out what index of the array to mutate?
+
+First call of merge(left: 0, right: 1, middle: 0) 
+- Made from within the First Recursive Call
+- We want to mutate indices 0, 1.
+- Compares {4}, and {1}, and places them, in order, into original array.
+- Places {1}, {4} into arr[0] and arr[1]
+
+
+Second call of merge() 
+- Made from within the Fourth Recursive Call
+- We want to mutate indices 2, 3.
+- Compares {3}, and {2} and places them, in order, into original array.
+- Places {2}, {3} into arr[2] and arr[3]
+
+
+Third call of merge()
+- Made from within the original call of merge()
+- Original array now looks like {1, 4, 2, 3}
+- Compare {1, 4} and {2, 3}
+- Reorder and place elements into order: {1, 2, 3, 4}
+
+
+
+
+
 
 
 
