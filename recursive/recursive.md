@@ -458,3 +458,85 @@ void print_array(int arr[], int length)
 }
 ```
   
+### Fourth Pass: Understanding the merge
+
+* Assumption 1: two single-element arrays
+
+```
+int left[] = {1};
+int right[] = {3};
+```
+1. Original call has {1, 3} passed in, l == 0, r == 1.
+2. First recursive call: m == 0 passed in as right-most value "r."
+3. First recursive call finds l == r (single-element array) and returns.
+4. From within Original call, the Second recursive call: 1 and 1 passed in for l and r. l == r -> Second recursive call returns.
+5. From within Original call, merge() is called.
+6. Copy the arrays into temp arrays, compare the contents, and copy them, in order, into the original array.
+
+
+* Assumption 2: {4, 1, 3, 2}
+
+1. Original Call: 
+```
+merge_sort(int arr[], int l, int r)
+```
+arr == {4, 1, 3, 2}
+l = 0
+r = 3
+-> m = 1
+
+2. First Recursive Call (Left Half):
+```
+merge_sort(arr, 0, m)
+```
+- Args
+  l = 0
+  r = m (m = 1 in Original call)
+
+new m calculated -> m = 0
+
+3. Second Recursive Call (Left Half of Left Half):
+```
+merge_sort(arr, 0, m)
+```
+- Args
+  l = 0
+  r = m (m = 0 in First Recursive Call)
+
+Base case reached -> l == r, single element array, function returns.
+
+4. Third Recursive Call (Right Half of Left Half):
+- The Second Recursive Call was made from within the First Recursive Call.
+- Since that Call of `merge_sort()` returned, the program moves to the next line:
+```
+merge_sort(arr, m + 1, r)
+```
+- Args
+  l = 1
+  r = 1
+
+Base case reached -> l == r, single element array, function returns.
+
+```
+int left[] = {1, 3};
+int right[] = {2, 4};
+```
+1. Original Call has {1, 3, 2, 4} passed in. l == 0, r == 3 (length - 1).
+2. Original Call: m = 1
+
+3. First Recursive Call (left half) examines {1, 3}, at the l and r indices of 0 and 1 (1 passed in from m parameter)
+4. First Recursive Call: m = 0
+
+5. Second Recursive Call is made from within the First Recursive Call: left half of left half, examines {1}, at the l and r indices of 0 and 0 (0 passed in from m parameter)
+6. Second Recursive Call: l == r (0 is passed in for both), and the function returns.
+
+6. Third Recursive Call is made from within the First Recursive Call: right half of left half, examines {3}, at indices 
+7. Third Recursive Call: l == r (0 is passed in for both), and the function returns.
+
+8. Return to First Recursive Call. now that `merge_sort()` as been called for both left and right halves of the left half, the function moves to the next line.
+9. `merge_sorted_arrays()` is called.
+
+10. `
+
+
+
