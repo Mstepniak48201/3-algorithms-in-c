@@ -1,17 +1,48 @@
 #include <stdio.h>
 
 // Prototypes
-void print_array(int arr[], int length);
+void merge_sort(int arr[], int l, int r);
 void merge(int arr[], int l, int r, int m);
+void print_array(int arr[], int length);
 
 int main(void)
 {
   int test_array[] = {1, 5, 100, 6, 90};
   int length = sizeof(test_array) / sizeof(test_array[0]);
   
+  printf("unsorted test array: ");
   print_array(test_array, length);
 
-  merge(test_array, 0, 4, 2);
+  merge_sort(test_array, 0, length - 1);
+
+  printf("sorted test array: ");
+  print_array(test_array, length);
+   
+  
+  // merge(test_array, 0, 4, 2);
+}
+
+void merge_sort(int arr[], int l, int r)
+{
+  // Set base case for single element or empty array.
+  if (l >= r)
+  {
+    return; 
+  }
+
+  // Get midpoint index.
+  int m = l + (r - l) / 2;
+
+  // Sort left half.
+  // Pass in l instead of 0. The value of l will change when sorting
+  // the left halves of right halves.
+  merge_sort(arr, l, m);
+
+  // Sort right half.
+  merge_sort(arr, m + 1, r);
+
+  // Merge sorted arrays.
+  merge(arr, l, r, m);
 }
 
 void merge(int arr[], int l, int r, int m)
@@ -28,24 +59,29 @@ void merge(int arr[], int l, int r, int m)
   // Declare temp arrays.
   int left[l_length], right[r_length];
 
-  // Declare index variables to track status of merge
-  // for the original array, left and right temp arrays.
-  // Altering the original array will always occur at the 
-  // l value.
+  // Variables to increment elements to be copied from original array to left[] and right[].
+  int l_cp_index = l;
+  int r_cp_index = m + 1;
+
+  // Variable to increment the current index of the original array being modified.
   int arr_i = l;
+
+  // Variables to track temp array elements processed.
   int left_i = 0;
   int right_i = 0;
 
   // Copy left half of arr[] into left[].
   for (int i = 0; i < l_length; i++)
   {
-    left[i] = arr[i];
+    left[i] = arr[l_cp_index];
+    l_cp_index++;
   }
 
   // Copy right half of arr[] into right[].
-  for (int i = lr_index; i < length; i++)
+  for (int i = 0; i < r_length; i++)
   {
-    right[i - lr_index] = arr[i];
+    right[i] = arr[r_cp_index];
+    r_cp_index++;
   }
 
   // Now that the arrays are copied, compare them.
@@ -84,27 +120,23 @@ void merge(int arr[], int l, int r, int m)
     right_i++;
   }
 
+  /*
   printf("First char of array: \n");
   printf("%i\n", arr[0]);
     
   printf("Second char of array: \n");
   printf("%i\n", arr[1]);
-
+  
   printf("Sorted Array: \n");
   print_array(arr, length);
+
 
   printf("left: ");
   print_array(left, l_length);
 
   printf("right: ");
-  print_array(right, r_length);
-
-  
-
-
-
-    
-  
+  print_array(right, r_length);  
+  */
 }
 
 void print_array(int arr[], int length)
